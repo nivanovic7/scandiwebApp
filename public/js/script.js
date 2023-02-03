@@ -3,10 +3,13 @@ import About from "/static/pages/About.js";
 import Login from "/static/pages/Login.js";
 import Add from "/static/pages/Add.js";
 import View from "/static/pages/View.js";
+import Error from "/static/pages/Error.js";
 
 import { parseRequestUrl } from "./services/utils.js";
 
 const router = function () {
+  const content = document.querySelector(".content-root");
+
   const { resource, id, verb } = parseRequestUrl();
 
   const routes = {
@@ -21,8 +24,9 @@ const router = function () {
     (id ? `${id}` : "") +
     (verb ? "/" + verb : "");
 
-  const page = routes[parsedUrl];
-  document.querySelector(".content-root").innerHTML = page.render();
+  const page = routes[parsedUrl] || Error;
+  console.log(page);
+  content.innerHTML = page.render();
 };
 
 // Listen on hash change.
