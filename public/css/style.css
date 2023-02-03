@@ -58,3 +58,64 @@ hr {
   -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
 }
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: 1px solid grey;
+  padding: 1em;
+  font-size: 1.3rem;
+  gap: 0.5rem;
+  width: 20vw;
+  margin-bottom: 5vw;
+}
+
+.card input {
+  position: absolute;
+  left: 0.5rem;
+  top: 0.5rem;
+}
+
+.add-product {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  gap: 1rem;
+}
+
+.form-group {
+  width: 230px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.add-product label {
+}
+
+.add-product input {
+  /* display: inline-block;
+  margin-left: 1rem; */
+  border-image-slice: 1;
+  border-image-source: linear-gradient(to left, #3f2075, #a8096e);
+  padding: 0.2rem;
+}
+
+.dynamic-form {
+  display: inline-flex;
+  flex-direction: column;
+  /* border: 1px solid rgb(199, 121, 66); */
+  /* padding: 1rem; */
+  width: 400px;
+  gap: 1rem;
+}

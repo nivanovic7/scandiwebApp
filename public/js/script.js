@@ -27,6 +27,7 @@ const router = function () {
   const page = routes[parsedUrl] || Error;
   console.log(page);
   content.innerHTML = page.render();
+  page.afterRender();
 };
 
 // Listen on hash change.
