@@ -4,6 +4,7 @@ const Home = {
 <hr>
     <p>Welcome to IKEA-custom-items Online shop.</p>`;
   },
+  afterRender: () => {},
 };
 
 export default Home;

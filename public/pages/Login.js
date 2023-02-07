@@ -4,6 +4,7 @@ const Login = {
     <hr>
         <p>Enter your username and password to login!</p>`;
   },
+  afterRender: () => {},
 };
 
 export default Login;

@@ -11,6 +11,7 @@ const About = {
         dolorum, hic, vitae quibusdam cupiditate qusequi?
       </p>`;
   },
+  afterRender: () => {},
 };
 
 export default About;

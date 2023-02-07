@@ -4,6 +4,8 @@ const Error = {
     <hr>
     <p>Page not found :( </p>`;
   },
+
+  afterRender: () => {},
 };
 
 export default Error;

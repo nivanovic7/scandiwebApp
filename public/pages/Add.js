@@ -1,5 +1,3 @@
-import data from "./data.js";
-
 const Add = {
   render: () => {
     return `<h2 class="page-title">Add products</h2>
@@ -39,98 +37,77 @@ const Add = {
 <button class="submit-btn" type="submit">submit</button>
   </form>`;
   },
-  renderNewForm: (type) => {
-    if (!type) return;
-    if (type === "size") {
-      return `
+
+  generateNewFormHtml: (type) => {
+    console.log(type);
+    return `
       <div class="form-group">  
-    <label for="size">
-      Size
+      ${type
+        .map((item) => {
+          return `
+        <label for="${item}">
+      ${item}
       </label>
-      <input required id="size" type="text" name="size" />
+      <input required id="${item}" type="text" name="${item}" />
+      `;
+        })
+        .join("")}
     </div>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam, rem.</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam, nue.</p>
   `;
-    }
-    if (type === "weight") {
-      return ` <div class="form-group">  
-      <label for="weight">
-        Weight
-        </label>
-        <input required id="weight" type="text" name="weight" />
-      </div>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam, rem.</p>
-  `;
-    }
-    if (type === "dimension") {
-      return ` <div class="form-group">  
-      <label for="width">
-        Width
-        </label>
-        <input required id="width" type="text" name="width" />
-      </div> <div class="form-group">  
-      <label for="height">
-        Height
-        </label>
-        <input required id="height" type="text" name="height" />
-      </div> <div class="form-group">  
-      <label for="length">
-        Length
-        </label>
-        <input required id="length" type="text" name="length" />
-      </div>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam, rem.</p>
-    
-    `;
-    }
+  },
+
+  generateNewForm: function () {
+    const dynamicForm = document.querySelector(".dynamic-form");
+
+    const type =
+      this.value === "dimension" ? ["height", "width", "length"] : [this.value];
+
+    dynamicForm.innerHTML = Add.generateNewFormHtml(type);
+  },
+
+  collectAndPostFormData: function (e) {
+    e.preventDefault();
+    const itemType = document.querySelector(".type-switcher").value;
+    const formData = Object.fromEntries(new FormData(this));
+    let specs;
+
+    if (itemType === "dimension")
+      specs = `Dimension: ${formData.width}x${formData.height}x${formData.length}`;
+    if (itemType === "size") specs = `Size: ${formData.size} mb`;
+    if (itemType === "weight") specs = `Weight: ${formData.weight} kg`;
+
+    const dataItem = {
+      sku: formData.sku,
+      title: formData.title,
+      price: formData.price + "$",
+      specs: specs,
+    };
+
+    Add.postData(dataItem);
   },
 
   afterRender: () => {
     const typeSwitcher = document.querySelector(".type-switcher");
-    const dynamicForm = document.querySelector(".dynamic-form");
+    const addProductForm = document.querySelector(".add-product");
 
-    typeSwitcher.addEventListener("change", function () {
-      const type = this.value;
-      const html = Add.renderNewForm(type);
-      dynamicForm.innerHTML = html;
-    });
-
-    document
-      .querySelector(".add-product")
-      .addEventListener("submit", function (e) {
-        e.preventDefault();
-        let formData = Object.fromEntries(new FormData(this));
-        let specs;
-        const itemType = document.querySelector(".type-switcher").value;
-
-        if (itemType === "dimension")
-          specs = `Dimension: ${formData.width}x${formData.height}x${formData.length}`;
-        if (itemType === "size") specs = `Size: ${formData.size}mb`;
-        if (itemType === "weight") specs = `Weight: ${formData.weight}kg`;
-
-        console.log(formData);
-        const dataItem = {
-          sku: formData.sku,
-          title: formData.title,
-          price: formData.price + "$",
-          specs: specs,
-        };
-        Add.postData(dataItem);
-      });
+    typeSwitcher.addEventListener("change", Add.generateNewForm);
+    addProductForm.addEventListener("submit", Add.collectAndPostFormData);
   },
 
   postData: function (data) {
-    console.log(data);
-    const req = fetch("http://localhost:3000/products", {
+    fetch("http://localhost:3000/products", {
       method: "POST",
       headers: {
         cors: "cors",
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    }).then((res) => {
-      window.location.hash = "view";
-    });
+    })
+      .then(() => {
+        window.location.hash = "view";
+      })
+      .catch((err) => console.log(err));
   },
 };
 

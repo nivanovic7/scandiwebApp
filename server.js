@@ -3,16 +3,15 @@ const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
 const app = express();
-const Product = require("./models/product");
 const bodyParser = require("body-parser");
-
-const dbUri =
+const Product = require("./models/product");
+const dbURI =
   "mongodb+srv://admin-nikola:8zzcvyey9PoPublY@cluster0.7ez59.mongodb.net/productsApp?retryWrites=true&w=majority";
 
 mongoose.set("strictQuery", true);
 mongoose
-  .connect(dbUri)
-  .then((res) => {
+  .connect(dbURI)
+  .then(() => {
     app.listen(process.env.PORT, () => {
       console.log(`Example app listening on port ${process.env.PORT}`);
     });
@@ -35,6 +34,13 @@ app.get("/products", (req, res) => {
     })
     .catch((err) => res.send(err));
 });
+app.post("/products", (req, res) => {
+  const product = new Product(req.body);
+  product
+    .save()
+    .then((result) => res.send("Saved"))
+    .catch((err) => console.log(err));
+});
 
 app.delete("/products/:id", (req, res) => {
   Product.findByIdAndDelete(req.params.id)
@@ -42,13 +48,5 @@ app.delete("/products/:id", (req, res) => {
       console.log(result);
       res.send("Deleted");
     })
-    .catch((err) => console.log(err));
-});
-
-app.post("/products", (req, res) => {
-  const product = new Product(req.body);
-  product
-    .save()
-    .then((result) => res.send("Saved"))
     .catch((err) => console.log(err));
 });

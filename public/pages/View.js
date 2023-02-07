@@ -28,26 +28,30 @@ const Views = {
     return res;
   },
 
-  afterRender: () => {
+  sendDeleteReq: function (id) {
+    fetch(`http://localhost:3000/products/${id}`, {
+      method: "DELETE",
+    })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => console.log(err));
+  },
+
+  deleteProduct: function () {
     const cards = document.querySelectorAll(".card");
-    document
-      .querySelector(".delete-btn")
-      .addEventListener("click", function () {
-        cards.forEach((card) => {
-          if (card.querySelector(".check-btn").checked) {
-            fetch(`http://localhost:3000/products/${card.dataset.id}`, {
-              method: "DELETE",
-            })
-              .then((result) => {
-                console.log(result);
-              })
-              .catch((err) => console.log(err));
-            console.log(card);
-          }
-        });
-        location.reload();
-        console.log("LER");
-      });
+
+    cards.forEach((card) => {
+      if (card.querySelector(".check-btn").checked) {
+        Views.sendDeleteReq(card.dataset.id);
+      }
+    });
+    location.reload();
+  },
+
+  afterRender: () => {
+    const deleteBtn = document.querySelector(".delete-btn");
+    deleteBtn.addEventListener("click", Views.deleteProduct);
   },
 };
 
