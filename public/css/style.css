@@ -63,7 +63,8 @@ hr {
   display: flex;
   flex-wrap: wrap;
   align-content: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  gap: 4vw;
   width: 100%;
 }
 
@@ -73,12 +74,20 @@ hr {
   align-items: center;
   justify-content: center;
   position: relative;
-  border: 1px solid grey;
+  border: 0px solid grey;
   padding: 1em;
   font-size: 1.3rem;
   gap: 0.5rem;
   width: 20vw;
   margin-bottom: 5vw;
+  transition: all 0.1s;
+  box-shadow: 1px 1px 1px 1px rgb(199, 121, 66);
+}
+
+.card:hover {
+  box-shadow: 4px 4px 4px 4px rgb(199, 121, 66);
+  border: 0px;
+  cursor: pointer;
 }
 
 .card input {
@@ -100,9 +109,6 @@ hr {
   justify-content: space-between;
 }
 
-.add-product label {
-}
-
 .add-product input {
   /* display: inline-block;
   margin-left: 1rem; */
@@ -118,4 +124,35 @@ hr {
   /* padding: 1rem; */
   width: 400px;
   gap: 1rem;
+}
+
+.submit-btn,
+.delete-btn {
+  padding: 0.5rem 1rem;
+  background-image: linear-gradient(
+    120deg,
+    rgb(199, 121, 66),
+    rgb(255, 162, 95)
+  );
+  color: rgb(52, 52, 53);
+  align-self: center;
+  border: none;
+  box-shadow: 1px 1px 1px 1px rgb(199, 121, 66);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.submit-btn:hover {
+  color: rgb(27, 27, 34);
+}
+
+.delete-btn {
+  margin-bottom: 2rem;
+  background-image: linear-gradient(
+    120deg,
+    rgb(172, 114, 13),
+    rgb(255, 163, 0)
+  );
+  color: rgb(102, 0, 0);
+  box-shadow: 1px 1px 1px 1px rgba(100, 45, 5, 0.322);
 }
